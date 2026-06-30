@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, field_validator
+from pydantic import BaseModel, EmailStr, field_validator, Field
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 from app.models.models import UserRole
@@ -80,12 +80,12 @@ class DatasetResponse(BaseModel):
     status: str
     row_count: int
     column_count: int
-    columns_info: Optional[Dict[str, Any]] = {}
+    columns_info: Dict[str, Any] = Field(default_factory=dict)
     data_quality_score: float
-    missing_values: Optional[Dict[str, Any]] = {}
+    missing_values: Dict[str, Any] = Field(default_factory=dict)
     outliers_detected: int
-    preview_data: Optional[List[Dict[str, Any]]] = []
-    schema_info: Optional[Dict[str, Any]] = {}
+    preview_data: List[Dict[str, Any]] = Field(default_factory=list)
+    schema_info: Dict[str, Any] = Field(default_factory=dict)
     owner_id: str
     created_at: datetime
 
@@ -102,14 +102,12 @@ class DatasetUpdate(BaseModel):
 
 class PredictionCreate(BaseModel):
     name: str
-    model_type: str                    # regression | classification | clustering | forecasting
+    model_type: str
     target_column: str
     feature_columns: List[str]
     dataset_id: str
-    # FIX 2: renamed from `config` → `model_config` to match the DB model field
-    # and what the ML engine expects.  Frontend must send `model_config` key.
-    model_config: Dict[str, Any] = {}
 
+    config: Dict[str, Any] = Field(default_factory=dict)
 
 class PredictionResponse(BaseModel):
     id: str
@@ -117,14 +115,14 @@ class PredictionResponse(BaseModel):
     model_type: str
     target_column: str
     feature_columns: List[str]
-    metrics: Optional[Dict[str, Any]] = {}
-    feature_importance: Optional[Dict[str, Any]] = {}
-    predictions_data: Optional[List[Any]] = []
-    forecast_data: Optional[List[Any]] = []
+    metrics: Dict[str, Any] = Field(default_factory=dict)
+    feature_importance: Dict[str, Any] = Field(default_factory=dict)
+    predictions_data: List[Any] = Field(default_factory=list)
+    forecast_data: List[Any] = Field(default_factory=list)
     # FIX 3: added shap_values field that was missing from response schema
-    shap_values: Optional[Dict[str, Any]] = {}
+    shap_values: Dict[str, Any] = Field(default_factory=dict)
     # FIX 4: added model_config field that was missing from response schema
-    model_config_used: Optional[Dict[str, Any]] = {}
+    model_config_used: Dict[str, Any] = Field(default_factory=dict)
     status: str
     dataset_id: str
     created_at: datetime
@@ -141,8 +139,7 @@ class ReportCreate(BaseModel):
     report_type: str = "comprehensive"
     file_type: str = "pdf"
     dataset_id: Optional[str] = None
-    config: Dict[str, Any] = {}
-
+    config: Dict[str, Any] = Field(default_factory=dict)
 
 class ReportResponse(BaseModel):
     id: str
@@ -178,8 +175,8 @@ class ChatResponse(BaseModel):
     session_id: str
     message: str
     role: str = "assistant"
-    sources: List[str] = []
-    charts: List[Dict[str, Any]] = []
+    sources: List[str] = Field(default_factory=list)
+    charts: List[Dict[str, Any]] = Field(default_factory=list)
 
 
 # ─── Notification Schemas ─────────────────────────────────────────────────────
@@ -190,7 +187,7 @@ class NotificationResponse(BaseModel):
     message: str
     notification_type: str
     is_read: bool
-    data: Optional[Dict[str, Any]] = {}
+    data: Dict[str, Any] = Field(default_factory=dict)
     created_at: datetime
 
     class Config:

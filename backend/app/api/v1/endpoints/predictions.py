@@ -41,7 +41,7 @@ async def create_prediction(
         model_type=pred_in.model_type,
         target_column=pred_in.target_column,
         feature_columns=pred_in.feature_columns,
-        model_config=pred_in.model_config,
+        model_config=pred_in.config,
         status="running",
         dataset_id=pred_in.dataset_id,
         owner_id=current_user.id,
@@ -59,7 +59,7 @@ async def create_prediction(
         pred_in.model_type,
         pred_in.target_column,
         pred_in.feature_columns,
-        pred_in.model_config,
+        pred_in.config,
     )
 
     return prediction

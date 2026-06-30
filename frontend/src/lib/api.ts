@@ -90,10 +90,20 @@ export const analyticsApi = {
 
 // ── Predictions ───────────────────────────────────────────────────────────────
 export const predictionsApi = {
-  list:   ()              => api.get('/predictions'),
-  get:    (id: string)    => api.get(`/predictions/${id}`),
-  create: (data: object)  => api.post('/predictions', data),
-}
+  list: () => api.get("/predictions"),
+
+  get: (id: string) =>
+    api.get(`/predictions/${id}`),
+
+  create: (data: object) =>
+    api.post("/predictions", data),
+
+  update: (id: string, data: object) =>
+    api.patch(`/predictions/${id}`, data),
+
+  delete: (id: string) =>
+    api.delete(`/predictions/${id}`),
+};
 
 // ── Chat ──────────────────────────────────────────────────────────────────────
 export const chatApi = {

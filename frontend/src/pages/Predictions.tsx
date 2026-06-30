@@ -116,16 +116,20 @@ export function Predictions() {
   })
 
   const deleteMut = useMutation({
-    mutationFn: (id: string) => predictionsApi.delete(id),
-    onSuccess: () => {
-      toast.success('Prediction deleted.')
-      setSelected(null)
-      qc.invalidateQueries({ queryKey: ['predictions'] })
-    },
-    onError: (err: any) => {
-      toast.error(err?.response?.data?.detail || 'Failed to delete prediction')
-    },
-  })
+  mutationFn: (id: string) => predictionsApi.delete(id),
+
+  onSuccess: () => {
+    toast.success("Prediction deleted.");
+    setSelected(null);
+    qc.invalidateQueries({ queryKey: ["predictions"] });
+  },
+
+  onError: (err: any) => {
+    toast.error(
+      err?.response?.data?.detail || "Failed to delete prediction"
+    );
+  },
+});
 
   const statusIcon = (s: string) => {
     if (s === 'completed') return <CheckCircle size={14} className="text-emerald-400" />

@@ -42,19 +42,17 @@ interface PredictionForm {
   target_column: string
   feature_columns: string[]
   dataset_id: string
-  // ✅ Fix #1 — model_config (not `config`) to match backend schema
-  model_config: Record<string, any>
+  config: Record<string, any>
 }
 
-const INITIAL_FORM: PredictionForm = {
-  name: '',
-  model_type: 'regression',
-  target_column: '',
+const INITIAL_FORM = {
+  name: "",
+  model_type: "regression",
+  target_column: "",
   feature_columns: [],
-  dataset_id: '',
-  model_config: {},
+  dataset_id: "",
+  config: {},
 }
-
 // ✅ Fix #13 — Model type metadata for validation guidance
 const MODEL_TYPES = [
   { value: 'regression',       label: 'Regression',       hint: 'Numeric target column' },

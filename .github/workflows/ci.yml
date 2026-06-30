@@ -34,9 +34,11 @@ jobs:
           pip install -r requirements.txt
           pip install aiosqlite
       - name: Run tests
+        working-directory: backend
+        env:
+          PYTHONPATH: ${{ github.workspace }}/backend
         run: |
-          cd backend
-          pytest tests/ -v --tb=short
+          python -m pytest tests -v --tb=short
 
   test-frontend:
     runs-on: ubuntu-latest

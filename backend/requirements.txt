@@ -45,3 +45,4 @@ faker==25.0.0
 loguru==0.7.2
 rich==13.7.1
 aiosqlite
+bcrypt==4.0.1
